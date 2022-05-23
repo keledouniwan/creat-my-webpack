@@ -1,3 +1,8 @@
-import './index.less'
-const root = document.querySelector('#root')
-root.innerHTML = 'hello, webpack!'
+import React from 'react'
+
+function App () {
+  return(
+    <div className='App'>Hello World</div>
+  )
+}
+export default App
