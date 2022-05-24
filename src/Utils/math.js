@@ -1,0 +1,1 @@
+export const add = (par1, par2) => par1 + par2

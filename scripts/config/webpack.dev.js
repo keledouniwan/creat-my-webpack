@@ -1,9 +1,9 @@
 const { merge } = require('webpack-merge')
 const common = require('./webpack.common.js')
-
+const webpack = require('webpack')
 const { SERVER_HOST, SERVER_PORT } = require('../constant')
-
 module.exports = merge(common, {
+  target: 'web',
   mode: 'development',
   devtool: 'eval-source-map',
   devServer: {
@@ -12,7 +12,22 @@ module.exports = merge(common, {
     stats: 'errors-only', // 终端仅打印 error
     clientLogLevel: 'silent', // 日志等级
     compress: true, // 是否启用 gzip 压缩
-    open: true, // 打开默认浏览器
     hot: true, // 热更新
+    proxy: {
+      '/api': {
+        target: 'https://cat-fact.herokuapp.com',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      },
+    }
   },
+
+  optimization: {
+    runtimeChunk: 'single'
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+  ]
 })
